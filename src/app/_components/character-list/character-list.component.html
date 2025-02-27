@@ -1,0 +1,9 @@
+@if (!isLoading()) {
+  <div class="character-list">
+    @for (character of characters().results; track character) {
+      <app-character [characterData]="character"></app-character>
+    }
+  </div>
+} @else {
+  <img width="540" src="/assets/loading.gif" />
+}

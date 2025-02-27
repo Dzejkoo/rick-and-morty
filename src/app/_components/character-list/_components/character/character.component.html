@@ -1,0 +1,14 @@
+<div class="character">
+  @let character = characterData();
+  <img
+    class="character__image"
+    width="100"
+    height="100"
+    [src]="character.image"
+    alt="Character photo"
+  />
+  <div class="character__preview">
+    <span>{{ character.name }}</span>
+    <span>{{ character.species }}</span>
+  </div>
+</div>

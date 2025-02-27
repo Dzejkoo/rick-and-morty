@@ -1,0 +1,21 @@
+:host {
+  width: 100%;
+  max-width: 250px;
+  display: block;
+  margin: 0 15px;
+}
+.character {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  padding: 7px;
+  background-color: white;
+  &__image {
+    border-radius: 10px;
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+  }
+}
