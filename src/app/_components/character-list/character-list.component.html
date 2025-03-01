@@ -1,9 +1,21 @@
-@if (!isLoading()) {
-  <div class="character-list">
-    @for (character of characters().results; track character) {
+<div class="page-info">
+  <h1 class="page-info__title">Characters</h1>
+  <span class="page-info__subtitle"
+    >Characters count {{ paginatorInfo().count }}
+  </span>
+</div>
+<div class="character-list">
+  @let loading = isLoading();
+  <div
+    class="character-list__main"
+    [class.character-list__main--disable]="loading"
+  >
+    @for (character of characters(); track character) {
       <app-character [characterData]="character"></app-character>
     }
   </div>
-} @else {
-  <img width="540" src="/assets/loading.gif" />
-}
+  <app-loader
+    [class.character-list__loader--active]="loading"
+    class="character-list__loader"
+  ></app-loader>
+</div>

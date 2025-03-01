@@ -13,9 +13,11 @@ export interface Character {
   created: string;
 }
 
-interface Info {
-  next: string | null;
-  prev: string | null;
+export interface Info {
+  count: number;
+  pages: number;
+  next: string;
+  prev: string;
 }
 
 export interface CharacterGetResponse {

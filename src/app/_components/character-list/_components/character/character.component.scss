@@ -1,17 +1,25 @@
-:host {
-  width: 100%;
-  max-width: 250px;
-  display: block;
-  margin: 0 15px;
-}
 .character {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-radius: 10px;
-  padding: 7px;
-  background-color: white;
   &__image {
-    border-radius: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    img {
+      border-radius: 5px;
+      display: block;
+    }
+  }
+  &__name {
+    font-size: 18px;
+    font-weight: 200;
+    margin-top: 10px;
+    display: block;
+    width: 160px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   &__preview {
