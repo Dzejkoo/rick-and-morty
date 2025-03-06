@@ -4,16 +4,25 @@ import { computed, inject, Injectable } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CharacterGetResponse } from '../../_models/character.interface';
 import { environment } from '../../../env/environment';
-import { delay } from 'rxjs';
+import { catchError, delay, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CharacterListService {
-  readonly #httpClient = inject(HttpClient);
-  readonly #pagiantorService = inject(PaginatorService);
+  private readonly _httpClient = inject(HttpClient);
+  private readonly _router = inject(Router);
+  private readonly _pagiantorService = inject(PaginatorService);
 
   private readonly _allCharactersResource = rxResource({
-    request: this.#pagiantorService.currentPage,
-    loader: ({ request }) => this._getAllCharacters(request).pipe(delay(500)),
+    request: () => this._pagiantorService.pageFromUrl(),
+    loader: ({ request }) =>
+      this._getAllCharacters(request).pipe(
+        catchError(() => {
+          this._router.navigate(['/']);
+          return of(null);
+        }),
+        delay(500),
+      ),
   });
 
   readonly characterLoading = this._allCharactersResource.isLoading;
@@ -23,7 +32,7 @@ export class CharacterListService {
   );
 
   private _getAllCharacters(page: number) {
-    return this.#httpClient.get<CharacterGetResponse>(
+    return this._httpClient.get<CharacterGetResponse>(
       `${environment.apiUrl}/character?page=${page}`,
     );
   }

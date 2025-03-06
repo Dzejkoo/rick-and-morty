@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './loader.component.html',
   styleUrl: './loader.component.scss',
 })
-export class LoaderComponent {}
+export class LoaderComponent {
+  readonly containers = new Array(20);
+}

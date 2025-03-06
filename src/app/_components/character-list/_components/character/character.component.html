@@ -1,12 +1,5 @@
 <div class="character">
   @let character = characterData();
-  <div class="character__image">
-    <img
-      width="160"
-      height="160"
-      [src]="character.image"
-      alt="Character photo"
-    />
-  </div>
+  <img class="character__image" [src]="character.image" alt="Character photo" />
   <span class="character__name">{{ character.name }}</span>
 </div>

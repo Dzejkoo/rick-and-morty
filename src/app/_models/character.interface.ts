@@ -23,4 +23,5 @@ export interface Info {
 export interface CharacterGetResponse {
   info: Info;
   results: Character[];
+  isError: boolean;
 }
