@@ -1,5 +1,5 @@
-<div class="character">
-  @let character = characterData();
+@let character = characterData();
+<a [routerLink]="'/character/' + character.id" class="character">
   <img class="character__image" [src]="character.image" alt="Character photo" />
   <span class="character__name">{{ character.name }}</span>
-</div>
+</a>

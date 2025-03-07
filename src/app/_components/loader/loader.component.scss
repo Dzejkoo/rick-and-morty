@@ -1,14 +1,17 @@
 .loader {
-  min-height: 650px;
   display: grid;
-  gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  min-height: 680px;
 }
 
 .character {
-  opacity: 0.3;
+  opacity: 0.5;
+
   &__image {
+    width: 100%;
     border-radius: 5px;
+    border: 1px solid #cecece;
     aspect-ratio: 1/1;
     background: linear-gradient(90deg, #e3e3e3 25%, #b9babb 50%, #e7e7e7 75%);
     background-size: 200% 100%;
@@ -17,10 +20,10 @@
   &__name {
     margin-top: 10px;
     height: 22px;
-    border-radius: 5px;
-    background: linear-gradient(90deg, #e3e3e3 25%, #b9babb 50%, #e7e7e7 75%);
-    background-size: 200% 100%;
-    animation: loading 3s infinite;
+    // border-radius: 5px;
+    // background: linear-gradient(90deg, #e3e3e3 25%, #b9babb 50%, #e7e7e7 75%);
+    // background-size: 200% 100%;
+    // animation: loading 3s infinite;
   }
 }
 

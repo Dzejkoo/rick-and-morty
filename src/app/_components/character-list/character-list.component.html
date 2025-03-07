@@ -5,20 +5,25 @@
   </span>
 </div>
 <div class="character-list">
-  @if (!isLoading()) {
-    <div class="character-list__main">
-      @for (character of characters(); track character) {
-        <app-character
-          class="character-list__item"
-          [characterData]="character"
-        ></app-character>
-      }
-    </div>
-    <app-paginator
-      [paginaotrData]="paginatorInfo()"
-      queryParamName="page"
-    ></app-paginator>
-  } @else {
-    <app-loader class="character-list__loader"></app-loader>
-  }
+  @let loading = isLoading();
+  <div
+    class="character-list__main"
+    [class.character-list__main--loader]="loading"
+  >
+    @for (character of characters(); track character.id) {
+      <app-character
+        [class.character-list__item--active]="loading"
+        class="character-list__item"
+        [characterData]="character"
+      ></app-character>
+    }
+    <app-loader
+      class="character-list__loader"
+      [class.character-list__loader--active]="loading"
+    ></app-loader>
+  </div>
+  <app-paginator
+    [paginaotrData]="paginatorInfo()"
+    queryParamName="page"
+  ></app-paginator>
 </div>

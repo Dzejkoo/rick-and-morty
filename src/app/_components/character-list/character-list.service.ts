@@ -1,6 +1,13 @@
 import { PaginatorService } from '../../_services/paginator.service';
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable } from '@angular/core';
+import {
+  computed,
+  inject,
+  Injectable,
+  linkedSignal,
+  ResourceStatus,
+  WritableSignal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CharacterGetResponse } from '../../_models/character.interface';
 import { environment } from '../../../env/environment';
@@ -27,9 +34,18 @@ export class CharacterListService {
 
   readonly characterLoading = this._allCharactersResource.isLoading;
 
-  readonly allCharacters = computed(
-    () => this._allCharactersResource.value() ?? ({} as CharacterGetResponse),
-  );
+  readonly allCharacters: WritableSignal<CharacterGetResponse> = linkedSignal({
+    source: () => ({
+      value: this._allCharactersResource.value(),
+      status: this._allCharactersResource.status(),
+    }),
+    computation: (source, previous) => {
+      if (previous && source.status === ResourceStatus.Loading) {
+        return previous.value;
+      }
+      return source.value ?? ({} as CharacterGetResponse);
+    },
+  });
 
   private _getAllCharacters(page: number) {
     return this._httpClient.get<CharacterGetResponse>(
