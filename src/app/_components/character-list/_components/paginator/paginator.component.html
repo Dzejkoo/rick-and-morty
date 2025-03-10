@@ -1,38 +1,46 @@
-<div class="paginator">
-  @let page = currentPage();
-  @let lastPage = totalPages();
-  @if (page >= 3) {
-    <a routerLink="/" class="paginator__page" [queryParams]="null">1 </a>
-    <a
-      routerLink="/"
-      class="paginator__page"
-      [queryParams]="getParamsObject | templateFunc: page - 1"
-      >...</a
-    >
-  }
-  @for (paginatorPage of paginatorPages(); track paginatorPage) {
-    <a
-      routerLink="/"
-      queryParamsHandling="merge"
-      class="paginator__page"
-      [class.paginator__page--active]="paginatorPage == page"
-      [queryParams]="getParamsObject | templateFunc: paginatorPage"
-      >{{ paginatorPage }}</a
-    >
-  }
-  @if (page < lastPage - 1) {
-    <a
-      routerLink="/"
-      class="paginator__page"
-      [queryParams]="getParamsObject | templateFunc: page + 1"
-      >...</a
-    >
-    <a
-      routerLink="/"
-      class="paginator__page"
-      queryParamsHandling="merge"
-      [queryParams]="getParamsObject | templateFunc: lastPage"
-      >{{ lastPage }}</a
-    >
-  }
-</div>
+@if (isLoading()) {
+  <div class="paginator">
+    @let page = currentPage();
+    @let lastPage = totalPages();
+    @if (page >= 3) {
+      <a
+        routerLink="/"
+        class="paginator__page"
+        [state]="{ page: 1 }"
+        [queryParams]="null"
+        >1</a
+      >
+      <a
+        routerLink="/"
+        class="paginator__page"
+        [queryParams]="getParamsObject | templateFunc: page - 1"
+        >...</a
+      >
+    }
+    @for (paginatorPage of paginatorPages(); track $index) {
+      <a
+        routerLink="/"
+        queryParamsHandling="merge"
+        class="paginator__page"
+        [class.paginator__page--active]="paginatorPage == page"
+        [queryParams]="getParamsObject | templateFunc: paginatorPage"
+        >{{ paginatorPage }}</a
+      >
+    }
+    @if (page < lastPage - 1) {
+      <a
+        routerLink="/"
+        class="paginator__page"
+        [queryParams]="getParamsObject | templateFunc: page + 1"
+        >...</a
+      >
+      <a
+        routerLink="/"
+        class="paginator__page"
+        queryParamsHandling="merge"
+        [queryParams]="getParamsObject | templateFunc: lastPage"
+        >{{ lastPage }}</a
+      >
+    }
+  </div>
+}

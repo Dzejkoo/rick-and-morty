@@ -10,4 +10,5 @@ import { RouterLink } from '@angular/router';
 })
 export class CharacterComponent {
   readonly characterData = input.required<Character>();
+  readonly isLoading = input.required<boolean>();
 }

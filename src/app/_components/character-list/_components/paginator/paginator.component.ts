@@ -13,6 +13,7 @@ import { PaginatorService } from '../../../../_services/paginator.service';
 export class PaginatorComponent {
   private readonly _paginatorService = inject(PaginatorService);
   readonly paginaotrData = input.required<Info>();
+  readonly isLoading = input.required<boolean>();
 
   readonly currentPage = computed(
     () => this._paginatorService.pageFromUrl() ?? 1,

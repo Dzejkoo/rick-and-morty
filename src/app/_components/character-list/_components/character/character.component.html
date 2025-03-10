@@ -1,5 +1,22 @@
 @let character = characterData();
-<a [routerLink]="'/character/' + character.id" class="character">
-  <img class="character__image" [src]="character.image" alt="Character photo" />
+@let loading = isLoading();
+<a
+  [routerLink]="'/character/' + character.id"
+  [state]="character"
+  class="character"
+>
+  <div
+    class="character__image-wrapper"
+    [class.character__image-wrapper--loading]="loading"
+  >
+    <img
+      class="character__image"
+      [class.character__image--loading]="loading"
+      [src]="character.image"
+      alt="Character photo"
+      width="160"
+      height="160"
+    />
+  </div>
   <span class="character__name">{{ character.name }}</span>
 </a>
