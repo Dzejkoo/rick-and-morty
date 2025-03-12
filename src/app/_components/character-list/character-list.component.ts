@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class CharacterListComponent {
   private readonly _characterService = inject(CharacterListService);
-  private readonly _router = inject(Router);
 
   readonly characterResponse = this._characterService.allCharacters;
 

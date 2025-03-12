@@ -1,0 +1,105 @@
+.character-details {
+  &__title {
+    position: relative;
+    margin-top: 30px;
+    font-weight: 300;
+    margin-bottom: 0;
+    font-size: 30px;
+  }
+
+  &__back {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    text-decoration: underline;
+  }
+  &__name {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  &__status {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    &--alive {
+      background-color: green;
+    }
+    &--dead {
+      background-color: red;
+    }
+    &--unknown {
+      background-color: grey;
+    }
+  }
+  &__species,
+  &__gender {
+    margin-top: 5px;
+    font-weight: 600;
+    &-label {
+      font-weight: 300;
+    }
+  }
+  &__species {
+    margin-bottom: 0;
+  }
+  &__image {
+    border-radius: 5px;
+    border: 1px solid #cecece;
+  }
+}
+
+.episodes {
+  &__details {
+    margin-top: 0px;
+    font-weight: 600;
+    &-label {
+      font-weight: 300;
+    }
+  }
+  &__season {
+    margin-bottom: 5px;
+    font-size: 20px;
+  }
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-decoration: none;
+    color: #222;
+    width: 100%;
+    min-height: 110px;
+    max-width: 250px;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    padding: 15px;
+    &-title,
+    &-episode,
+    &-date {
+      margin: 0;
+    }
+  }
+  &__title {
+    margin-top: 30px;
+    font-weight: 300;
+    margin-bottom: 5px;
+  }
+  &__season-episode {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

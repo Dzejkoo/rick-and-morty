@@ -1,18 +1,64 @@
 <div class="character-details">
   <button class="character-details__back" (click)="back()">Back</button>
   @if (characterData$ | async; as characterData) {
-    <h2 class="character-details__name">
+    <h1 class="character-details__name">
       {{ characterData.name }}
-    </h2>
-    <p>{{ getSpecies | templateFunc: characterData }}</p>
+      <span
+        class="character-details__status"
+        [ngClass]="{
+          'character-details__status--alive': characterData.status === 'Alive',
+          'character-details__status--dead': characterData.status === 'Dead',
+          'character-details__status--unknown':
+            characterData.status === 'unknown',
+        }"
+      ></span>
+    </h1>
+    <p class="character-details__species">
+      <span class="character-details__species-label">Type:</span>
+      {{ getSpecies | templateFunc: characterData }}
+    </p>
     @if (characterData.gender !== unknown) {}
-    <p class="character-details__gender">{{ characterData.gender }}</p>
+    <p class="character-details__gender">
+      <span class="character-details__gender-label">Gender:</span>
+      {{ characterData.gender }}
+    </p>
     <img
+      class="character-details__image"
       width="350"
       height="350"
       [src]="characterData.image"
       alt="Character photo"
     />
+    <div class="episodes">
+      <h2 class="episodes__title">Episodes</h2>
+      <p class="episodes__details">
+        <span class="episodes__details-label">Number of episodes: </span>
+        {{ episodesCount() }}
+      </p>
+      <div class="episodes__list">
+        @if (!episodesLoading()) {
+          @for (season of episodesData(); track season.title) {
+            <h3 class="episodes__season">{{ season.title }}</h3>
+            <div class="episodes__season-episode">
+              @for (episode of season.episodes; track episode.id) {
+                <a
+                  [routerLink]="'/episodes/' + episode.id"
+                  class="episodes__item"
+                >
+                  <h3 class="episodes__item-title">{{ episode.name }}</h3>
+                  <p class="episodes__item-episode">{{ episode.episode }}</p>
+                  <span class="episodes__item-date">{{
+                    episode.air_date
+                  }}</span>
+                </a>
+              }
+            </div>
+          }
+        } @else {
+          Loading...
+        }
+      </div>
+    </div>
   } @else {
     <span>Loading...</span>
   }
