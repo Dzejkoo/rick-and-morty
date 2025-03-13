@@ -1,23 +1,25 @@
 import { Character } from './../../_models/character.interface';
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { delay, iif, of, tap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  computed,
+  inject,
+  Injectable,
+  linkedSignal,
+  ResourceStatus,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { delay, iif, map, of, tap } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../env/environment';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { EpisodeService } from '../../_services/episode.service';
-import { Episode } from '../../_models/episode.interface';
+import { Season } from '../../_models/episode.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CharacterDetailsService {
   private readonly _httpClient = inject(HttpClient);
   private readonly _episodesService = inject(EpisodeService);
-  private readonly _characterId = inject(ActivatedRoute).snapshot.paramMap.get(
-    'id',
-  ) as string;
-  private readonly _state = inject(Router).getCurrentNavigation()?.extras
-    ?.state as Character;
-
   private readonly _episodesIds = signal<string[] | undefined>(undefined);
 
   private readonly _episodesResource = rxResource({
@@ -26,44 +28,46 @@ export class CharacterDetailsService {
       this._episodesService.getEpisodes(request).pipe(delay(500)),
   });
 
-  readonly episodes = computed(() => {
-    const episodesArr = this._episodesResource.value() ?? [];
-    const grouped: Record<string, Episode[]> = {};
-
-    episodesArr.forEach((episode) => {
-      const match = episode.episode.match(/S(\d{2})E\d{2}/);
-      if (match) {
-        const seasonKey = `Season ${parseInt(match[1])}`;
-        if (!grouped[seasonKey]) {
-          grouped[seasonKey] = [];
-        }
-        grouped[seasonKey].push(episode);
+  readonly episodes: WritableSignal<Season[]> = linkedSignal({
+    source: () => ({
+      value: this._episodesResource.value(),
+      status: this._episodesResource.status(),
+    }),
+    computation: (source, previous) => {
+      if (previous && source.status === ResourceStatus.Loading) {
+        return previous.value;
       }
-    });
-
-    return Object.entries(grouped).map(([title, episodes]) => ({
-      title,
-      episodes,
-    }));
+      return source.value ?? ([] as Season[]);
+    },
   });
-  readonly numberOfEpisodes = computed(
+  readonly episodesCount = computed(
     () => this._episodesResource.value()?.length ?? 0,
   );
   readonly episodeLoading = this._episodesResource.isLoading;
 
-  getCharacterData() {
+  getCharacterData(characterId: string, stateCharacter: Character) {
     return iif(
-      () => !!this._state,
-      of(this._state),
-      this._getCharacter(this._characterId).pipe(),
+      () => !!stateCharacter,
+      of(stateCharacter),
+      this._getCharacter(characterId),
     ).pipe(
-      tap((character) => {
-        const episodeIds = character.episode.map((episode) =>
-          episode.replace(/\D/g, ''),
-        );
-        this._episodesIds.set(episodeIds);
-      }),
+      tap((character) => this._getEpisodeIds(character)),
+      map((character) => ({
+        ...character,
+        location: {
+          ...character.location,
+          url: character.location.url.replace(/\D/g, ''),
+        },
+      })),
     );
+  }
+  private _getEpisodeIds(character: Character) {
+    const episodeIds = character.episode.map((episode) =>
+      episode.replace(/\D/g, ''),
+    );
+    if (JSON.stringify(this._episodesIds()) !== JSON.stringify(episodeIds)) {
+      this._episodesIds.set(episodeIds);
+    }
   }
 
   private _getCharacter(characterId: string) {

@@ -1,34 +1,51 @@
 <div class="character-details">
-  <button class="character-details__back" (click)="back()">Back</button>
+  <app-navigation></app-navigation>
   @if (characterData$ | async; as characterData) {
-    <h1 class="character-details__name">
-      {{ characterData.name }}
-      <span
-        class="character-details__status"
-        [ngClass]="{
-          'character-details__status--alive': characterData.status === 'Alive',
-          'character-details__status--dead': characterData.status === 'Dead',
-          'character-details__status--unknown':
-            characterData.status === 'unknown',
-        }"
-      ></span>
-    </h1>
-    <p class="character-details__species">
-      <span class="character-details__species-label">Type:</span>
-      {{ getSpecies | templateFunc: characterData }}
-    </p>
-    @if (characterData.gender !== unknown) {}
-    <p class="character-details__gender">
-      <span class="character-details__gender-label">Gender:</span>
-      {{ characterData.gender }}
-    </p>
-    <img
-      class="character-details__image"
-      width="350"
-      height="350"
-      [src]="characterData.image"
-      alt="Character photo"
-    />
+    <div class="character-details__main">
+      <img
+        class="character-details__image"
+        [src]="characterData.image"
+        width="150"
+        height="150"
+        alt="Character image"
+      />
+      <div class="character-details__wrapper">
+        <h1 class="character-details__name">
+          {{ characterData.name }}
+          <span
+            class="character-details__status"
+            [ngClass]="{
+              'character-details__status--alive':
+                characterData.status === 'Alive',
+              'character-details__status--dead':
+                characterData.status === 'Dead',
+              'character-details__status--unknown':
+                characterData.status === 'unknown',
+            }"
+          ></span>
+        </h1>
+        @if (characterData.location.name !== unknown) {
+          <p class="character-details__location">
+            <span class="character-details__location-label">Location:</span>
+            <a
+              class="character-details__location-link"
+              [routerLink]="'/location/' + characterData.location.url"
+              >{{ characterData.location.name }}</a
+            >
+          </p>
+        }
+        @if (characterData.species !== unknown) {
+          <p class="character-details__species">
+            <span class="character-details__species-label">Type:</span>
+            {{ getSpecies | templateFunc: characterData }}
+          </p>
+        }
+        <p class="character-details__gender">
+          <span class="character-details__gender-label">Gender:</span>
+          {{ characterData.gender }}
+        </p>
+      </div>
+    </div>
     <div class="episodes">
       <h2 class="episodes__title">Episodes</h2>
       <p class="episodes__details">
@@ -42,7 +59,7 @@
             <div class="episodes__season-episode">
               @for (episode of season.episodes; track episode.id) {
                 <a
-                  [routerLink]="'/episodes/' + episode.id"
+                  [routerLink]="'/episode/' + episode.id"
                   class="episodes__item"
                 >
                   <h3 class="episodes__item-title">{{ episode.name }}</h3>
@@ -55,11 +72,11 @@
             </div>
           }
         } @else {
-          Loading...
+          <app-loader class="episodes__loader"></app-loader>
         }
       </div>
     </div>
   } @else {
-    <span>Loading...</span>
+    <app-loader></app-loader>
   }
 </div>

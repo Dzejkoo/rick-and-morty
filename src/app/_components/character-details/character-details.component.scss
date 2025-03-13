@@ -1,4 +1,13 @@
 .character-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  &__main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
   &__title {
     position: relative;
     margin-top: 30px;
@@ -6,22 +15,12 @@
     margin-bottom: 0;
     font-size: 30px;
   }
-
-  &__back {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
-    font-size: 16px;
-    text-decoration: underline;
-  }
   &__name {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
   }
   &__status {
@@ -40,25 +39,38 @@
     }
   }
   &__species,
-  &__gender {
+  &__gender,
+  &__location {
     margin-top: 5px;
     font-weight: 600;
     &-label {
       font-weight: 300;
     }
+    &-link {
+      color: #222;
+      margin-left: 5px;
+    }
   }
-  &__species {
+  &__species,
+  &__location {
     margin-bottom: 0;
   }
   &__image {
     border-radius: 5px;
+    height: 100px;
+    width: 100px;
     border: 1px solid #cecece;
   }
 }
 
 .episodes {
+  display: flex;
+  flex-direction: column;
+  &__loader {
+    margin-top: 20px;
+  }
   &__details {
-    margin-top: 0px;
+    margin: 0px;
     font-weight: 600;
     &-label {
       font-weight: 300;
@@ -74,9 +86,7 @@
     justify-content: space-evenly;
     text-decoration: none;
     color: #222;
-    width: 100%;
-    min-height: 110px;
-    max-width: 250px;
+    height: 110px;
     border-radius: 5px;
     border: 1px solid #cecece;
     padding: 15px;
@@ -89,11 +99,12 @@
   &__title {
     margin-top: 30px;
     font-weight: 300;
-    margin-bottom: 5px;
+    margin: 20px 0 0;
   }
   &__season-episode {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 15px;
   }
   &__list {
@@ -101,5 +112,16 @@
     flex-direction: column;
     flex-wrap: wrap;
     gap: 10px;
+  }
+}
+@media only screen and (min-width: 720px) {
+  .character-details {
+    &__image {
+      width: 150px;
+      height: 150px;
+    }
+    &__name {
+      font-size: 24px;
+    }
   }
 }
