@@ -28,12 +28,12 @@ export class CharacterDetailsComponent {
   private readonly _characterDetailsService = inject(CharacterDetailsService);
   private readonly _episodesService = inject(EpisodeService);
   private readonly _activateRoute = inject(ActivatedRoute);
+  private readonly _state = inject(Router).getCurrentNavigation()?.extras
+    ?.state as Character;
   readonly characterData$ = this._getParamsAndFetchData();
   readonly episodesData = this._characterDetailsService.episodes;
   readonly episodesLoading = this._characterDetailsService.episodeLoading;
   readonly episodesCount = this._episodesService.episodesCount;
-  private readonly _state = inject(Router).getCurrentNavigation()?.extras
-    ?.state as Character;
   readonly unknown = UNKNOWN_STATUS;
 
   private _getParamsAndFetchData() {

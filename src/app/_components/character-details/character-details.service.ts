@@ -40,9 +40,7 @@ export class CharacterDetailsService {
       return source.value ?? ([] as Season[]);
     },
   });
-  readonly episodesCount = computed(
-    () => this._episodesResource.value()?.length ?? 0,
-  );
+
   readonly episodeLoading = this._episodesResource.isLoading;
 
   getCharacterData(characterId: string, stateCharacter: Character) {
@@ -61,6 +59,7 @@ export class CharacterDetailsService {
       })),
     );
   }
+
   private _getEpisodeIds(character: Character) {
     const episodeIds = character.episode.map((episode) =>
       episode.replace(/\D/g, ''),
