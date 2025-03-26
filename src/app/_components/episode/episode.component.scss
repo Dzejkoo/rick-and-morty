@@ -1,0 +1,14 @@
+.episode {
+  &__page-title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 0;
+  }
+  &__characters {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+}

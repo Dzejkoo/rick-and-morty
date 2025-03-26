@@ -1,5 +1,4 @@
-import { PaginatorService } from '../../_services/paginator.service';
-import { HttpClient } from '@angular/common/http';
+import { PaginatorService } from './_components/paginator/paginator.service';
 import {
   inject,
   Injectable,
@@ -9,7 +8,6 @@ import {
 } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CharacterGetResponse } from '../../_models/character.interface';
-import { environment } from '../../../env/environment';
 import {
   catchError,
   delay,
@@ -20,20 +18,18 @@ import {
   of,
 } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppService } from '../../app.service';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterListService {
-  private readonly _httpClient = inject(HttpClient);
+  private readonly _appService = inject(AppService);
   private readonly _router = inject(Router);
   private readonly _pagiantorService = inject(PaginatorService);
 
   private readonly _allCharactersResource = rxResource({
     request: () => this._pagiantorService.pageFromUrl(),
     loader: ({ request }) =>
-      this._getAllCharacters(request).pipe(
-        mergeMap((characters: CharacterGetResponse) =>
-          this._handleImageProces(characters),
-        ),
+      this._appService.fetchAllCharacters(request).pipe(
         delay(500),
         catchError(() => {
           this._router.navigate(['/']);
@@ -56,49 +52,4 @@ export class CharacterListService {
       return source.value ?? ({} as CharacterGetResponse);
     },
   });
-
-  private _handleImageProces(characters: CharacterGetResponse) {
-    const imageLoadObservables = characters.results.map((character) => {
-      return this._preloadImages(character.image);
-    });
-
-    return forkJoin(imageLoadObservables).pipe(
-      map((blobs) => {
-        characters.results.forEach((character, index) => {
-          character.image = blobs[index] as string;
-        });
-        return characters;
-      }),
-    );
-  }
-
-  private _preloadImages(url: string) {
-    return new Observable((observer) => {
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to load image');
-          }
-          return response.blob();
-        })
-        .then((blob) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            observer.next(reader.result);
-            observer.complete();
-          };
-          reader.readAsDataURL(blob);
-        })
-        .catch(() => {
-          observer.next(null);
-          observer.complete();
-        });
-    });
-  }
-
-  private _getAllCharacters(page: number) {
-    return this._httpClient.get<CharacterGetResponse>(
-      `${environment.apiUrl}/character?page=${page}`,
-    );
-  }
 }

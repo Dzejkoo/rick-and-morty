@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { CharacterListService } from './character-list.service';
-import { CharacterComponent } from './_components/character/character.component';
+import { CharacterComponent } from '../character/character.component';
 import { PaginatorComponent } from './_components/paginator/paginator.component';
 import { LoaderComponent } from '../loader/loader.component';
 

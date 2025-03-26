@@ -1,3 +1,22 @@
 <div class="episode">
-  <app-navigation></app-navigation>
+  <h2 class="episode__page-title">Episode</h2>
+  <div class="episode__details">
+    @if (episodeData$ | async; as episodeData) {
+      <h1 class="episode__title">{{ episodeData.name }}</h1>
+      <p class="episode__date">{{ episodeData.air_date }}</p>
+      <p class="episode__info">{{ episodeData.episode }}</p>
+    }
+    <div class="episode__characters">
+      @if (!charactersLoading()) {
+        @for (character of characters(); track character.id) {
+          <app-character
+            [isLoading]="charactersLoading()"
+            [characterData]="character"
+          ></app-character>
+        }
+      } @else {
+        <app-loader class="episodes__loader"></app-loader>
+      }
+    </div>
+  </div>
 </div>

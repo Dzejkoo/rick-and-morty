@@ -1,5 +1,5 @@
 <div class="character-details">
-  <app-navigation></app-navigation>
+  <h2 class="character-details__page-title">Character</h2>
   @if (characterData$ | async; as characterData) {
     <div class="character-details__main">
       <img
@@ -60,6 +60,7 @@
               @for (episode of season.episodes; track episode.id) {
                 <a
                   [routerLink]="'/episode/' + episode.id"
+                  [state]="episode"
                   class="episodes__item"
                 >
                   <h3 class="episodes__item-title">{{ episode.name }}</h3>

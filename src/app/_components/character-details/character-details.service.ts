@@ -1,6 +1,5 @@
 import { Character } from './../../_models/character.interface';
 import {
-  computed,
   inject,
   Injectable,
   linkedSignal,
@@ -10,22 +9,21 @@ import {
 } from '@angular/core';
 import { delay, iif, map, of, tap } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../env/environment';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { EpisodeService } from '../../_services/episode.service';
+import { EpisodeService } from '../episode/episode.service';
 import { Season } from '../../_models/episode.interface';
+import { AppService } from '../../app.service';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterDetailsService {
-  private readonly _httpClient = inject(HttpClient);
+  private readonly _appService = inject(AppService);
   private readonly _episodesService = inject(EpisodeService);
   private readonly _episodesIds = signal<string[] | undefined>(undefined);
 
   private readonly _episodesResource = rxResource({
     request: this._episodesIds,
     loader: ({ request }) =>
-      this._episodesService.getEpisodes(request).pipe(delay(500)),
+      this._episodesService.groupEpisodesBySeason(request).pipe(delay(500)),
   });
 
   readonly episodes: WritableSignal<Season[]> = linkedSignal({
@@ -47,7 +45,7 @@ export class CharacterDetailsService {
     return iif(
       () => !!stateCharacter,
       of(stateCharacter),
-      this._getCharacter(characterId),
+      this._appService.fetchCharacter<Character>(characterId),
     ).pipe(
       tap((character) => this._getEpisodeIds(character)),
       map((character) => ({
@@ -67,11 +65,5 @@ export class CharacterDetailsService {
     if (JSON.stringify(this._episodesIds()) !== JSON.stringify(episodeIds)) {
       this._episodesIds.set(episodeIds);
     }
-  }
-
-  private _getCharacter(characterId: string) {
-    return this._httpClient.get<Character>(
-      `${environment.apiUrl}/character/${characterId}`,
-    );
   }
 }

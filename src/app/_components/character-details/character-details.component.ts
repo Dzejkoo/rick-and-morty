@@ -1,13 +1,13 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AsyncPipe, Location, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Character } from '../../_models/character.interface';
 import { TemplateFuncPipe } from '../../_pipes/template-func.pipe';
 import { CharacterDetailsService } from './character-details.service';
 import { LoaderComponent } from '../loader/loader.component';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { filter, map, switchMap } from 'rxjs';
-import { EpisodeService } from '../../_services/episode.service';
+import { EpisodeService } from '../episode/episode.service';
 
 const UNKNOWN_STATUS = 'unknown';
 
@@ -15,14 +15,7 @@ const UNKNOWN_STATUS = 'unknown';
   selector: 'app-character-details',
   templateUrl: './character-details.component.html',
   styleUrl: './character-details.component.scss',
-  imports: [
-    AsyncPipe,
-    TemplateFuncPipe,
-    NgClass,
-    RouterLink,
-    LoaderComponent,
-    NavigationComponent,
-  ],
+  imports: [AsyncPipe, TemplateFuncPipe, NgClass, RouterLink, LoaderComponent],
 })
 export class CharacterDetailsComponent {
   private readonly _characterDetailsService = inject(CharacterDetailsService);

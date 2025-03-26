@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Character } from '../../../../_models/character.interface';
+import { Character } from '../../_models/character.interface';
 import { RouterLink } from '@angular/router';
 
 @Component({
