@@ -8,15 +8,7 @@ import {
 } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CharacterGetResponse } from '../../_models/character.interface';
-import {
-  catchError,
-  delay,
-  forkJoin,
-  map,
-  mergeMap,
-  Observable,
-  of,
-} from 'rxjs';
+import { catchError, delay, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
 

@@ -3,12 +3,22 @@ import { environment } from '../env/environment';
 import { HttpClient } from '@angular/common/http';
 import { CharacterGetResponse } from './_models/character.interface';
 import { forkJoin, map, mergeMap, Observable } from 'rxjs';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
   private readonly _httpClient = inject(HttpClient);
+  private readonly _location = inject(Location);
+  private readonly _router = inject(Router);
+
+  fecthLocation<T>(locationId: string[] | string) {
+    return this._httpClient.get<T>(
+      `${environment.apiUrl}/location/${locationId}`,
+    );
+  }
 
   fetchCharacter<T>(characterId: string[] | string | undefined) {
     return this._httpClient.get<T>(
@@ -30,6 +40,14 @@ export class AppService {
     return this._httpClient.get<T>(
       `${environment.apiUrl}/episode/${episodeIds}`,
     );
+  }
+
+  back() {
+    if (window.history.state?.navigationId > 2) {
+      this._location.back();
+    } else {
+      this._router.navigate(['/']);
+    }
   }
 
   private _handleImageProces(characters: CharacterGetResponse) {

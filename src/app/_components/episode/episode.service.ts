@@ -19,6 +19,7 @@ export class EpisodeService {
   private readonly _appService = inject(AppService);
   private readonly _characterIds = signal<string[] | undefined>(undefined);
   readonly episodesCount = signal(0);
+  readonly characterCount = signal(0);
 
   private readonly _characterResource = rxResource({
     request: this._characterIds,
@@ -74,14 +75,15 @@ export class EpisodeService {
       () => !!stateEpisode,
       of(stateEpisode),
       this._appService.fetchEpisodes<Episode>(episodeIds),
-    ).pipe(tap((episode) => this._getCharacterIds(episode)));
+    ).pipe(tap(({ characters }) => this._getCharacterIds(characters)));
   }
 
-  private _getCharacterIds(episode: Episode) {
-    const episodeIds = episode.characters.map((character) =>
+  private _getCharacterIds(characters: string[]) {
+    const episodeIds = characters.map((character) =>
       character.replace(/\D/g, ''),
     );
     if (JSON.stringify(this._characterIds()) !== JSON.stringify(episodeIds)) {
+      this.characterCount.set(episodeIds.length);
       this._characterIds.set(episodeIds);
     }
   }

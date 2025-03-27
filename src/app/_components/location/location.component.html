@@ -1,0 +1,23 @@
+<div class="location">
+  <h2 class="location__page-title">Location</h2>
+  <div class="location__details">
+    @if (locationData$ | async; as locationData) {
+      <h1 class="location__title">{{ locationData.name }}</h1>
+      <p class="location__type">{{ locationData.type }}</p>
+      <p class="location__dimension">{{ locationData.dimension }}</p>
+    }
+  </div>
+
+  <div class="location__characters">
+    @if (!charactersLoading()) {
+      @for (character of characters(); track character.id) {
+        <app-character
+          [isLoading]="charactersLoading()"
+          [characterData]="character"
+        ></app-character>
+      }
+    } @else {
+      <app-loader class="location__loader"></app-loader>
+    }
+  </div>
+</div>

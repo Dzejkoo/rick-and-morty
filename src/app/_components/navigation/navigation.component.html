@@ -1,3 +1,20 @@
-<button class="back" (click)="back()">
-  <img src="/assets/arrow.svg" width="12" height="12" alt="arrow" />Back
-</button>
+<div class="navigation">
+  <a
+    routerLink="/characters"
+    routerLinkActive="navigation__page--active"
+    class="navigation__page"
+    >Characters</a
+  >
+  <a
+    routerLink="/locations"
+    routerLinkActive="navigation__page--active"
+    class="navigation__page"
+    >Locations</a
+  >
+  <a
+    routerLink="/episodes"
+    routerLinkActive="navigation__page--active"
+    class="navigation__page"
+    >Episodes</a
+  >
+</div>

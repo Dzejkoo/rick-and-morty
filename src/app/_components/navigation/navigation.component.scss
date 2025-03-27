@@ -1,14 +1,32 @@
-.back {
+.navigation {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
-  img {
-    transform: rotate(180deg);
+  gap: 20px;
+  margin-bottom: 24px;
+  &__back {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: #11b0c8;
+    margin: 0;
+    font-size: 16px;
+    img {
+      transform: rotate(180deg);
+    }
+  }
+  &__page {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    &--active {
+      color: #11b0c8;
+    }
+    &:hover {
+      color: #11b0c8;
+    }
   }
 }

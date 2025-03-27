@@ -8,6 +8,7 @@ import { LoaderComponent } from '../loader/loader.component';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { filter, map, switchMap } from 'rxjs';
 import { EpisodeService } from '../episode/episode.service';
+import { AppService } from '../../app.service';
 
 const UNKNOWN_STATUS = 'unknown';
 
@@ -21,6 +22,7 @@ export class CharacterDetailsComponent {
   private readonly _characterDetailsService = inject(CharacterDetailsService);
   private readonly _episodesService = inject(EpisodeService);
   private readonly _activateRoute = inject(ActivatedRoute);
+  private readonly _appService = inject(AppService);
   private readonly _state = inject(Router).getCurrentNavigation()?.extras
     ?.state as Character;
   readonly characterData$ = this._getParamsAndFetchData();
@@ -28,6 +30,10 @@ export class CharacterDetailsComponent {
   readonly episodesLoading = this._characterDetailsService.episodeLoading;
   readonly episodesCount = this._episodesService.episodesCount;
   readonly unknown = UNKNOWN_STATUS;
+
+  back() {
+    this._appService.back();
+  }
 
   private _getParamsAndFetchData() {
     return this._activateRoute.params.pipe(

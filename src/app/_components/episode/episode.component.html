@@ -1,12 +1,35 @@
 <div class="episode">
-  <h2 class="episode__page-title">Episode</h2>
+  <h2 class="episode__page-title">
+    <img
+      (click)="back()"
+      class="episode__arrow"
+      src="/assets/arrow.svg"
+      width="20"
+      height="20"
+      alt="arrow"
+    />
+    Episode
+  </h2>
   <div class="episode__details">
     @if (episodeData$ | async; as episodeData) {
       <h1 class="episode__title">{{ episodeData.name }}</h1>
-      <p class="episode__date">{{ episodeData.air_date }}</p>
-      <p class="episode__info">{{ episodeData.episode }}</p>
+      <p class="episode__date">
+        <span class="episode__label">Release date:</span>
+        {{ episodeData.air_date }}
+      </p>
+      <p class="episode__info">
+        <span class="episode__label">Series Episode Tag:</span>
+        {{ episodeData.episode }}
+      </p>
     }
-    <div class="episode__characters">
+  </div>
+  <div class="characters">
+    <h2 class="characters__title">Characters</h2>
+    <p class="characters__details">
+      <span class="characters__details-label">Number of characters: </span>
+      {{ characterCount() }}
+    </p>
+    <div class="characters__list">
       @if (!charactersLoading()) {
         @for (character of characters(); track character.id) {
           <app-character
@@ -15,7 +38,7 @@
           ></app-character>
         }
       } @else {
-        <app-loader class="episodes__loader"></app-loader>
+        <app-loader class="characters__loader"></app-loader>
       }
     </div>
   </div>

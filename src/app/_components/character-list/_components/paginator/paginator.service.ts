@@ -4,6 +4,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs';
 
+const ALLOW_PAGE = ['characters', 'locations', 'episodes'];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +22,11 @@ export class PaginatorService {
         const fullPath = this._location.path();
         const queryParams = fullPath.split('?')[1];
         const params = new URLSearchParams(queryParams);
-        if (fullPath === '') {
+        if (!ALLOW_PAGE.some((page) => fullPath.includes(page))) {
+          return 0;
+        }
+
+        if (!params.size) {
           return 1;
         }
         return Number(params.get('page'));

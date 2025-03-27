@@ -6,6 +6,7 @@ import { EpisodeService } from './episode.service';
 import { AsyncPipe } from '@angular/common';
 import { CharacterComponent } from '../character/character.component';
 import { LoaderComponent } from '../loader/loader.component';
+import { AppService } from '../../app.service';
 
 @Component({
   selector: 'app-episode',
@@ -18,9 +19,15 @@ export class EpisodeComponent {
   private readonly _activateRoute = inject(ActivatedRoute);
   private readonly _state = inject(Router).getCurrentNavigation()?.extras
     ?.state as Episode;
+  private readonly _appService = inject(AppService);
   readonly episodeData$ = this._getParamsAndFetchData();
   readonly characters = this._episodeService.characters;
   readonly charactersLoading = this._episodeService.characterLoading;
+  readonly characterCount = this._episodeService.characterCount;
+
+  back() {
+    this._appService.back();
+  }
 
   private _getParamsAndFetchData() {
     return this._activateRoute.params.pipe(

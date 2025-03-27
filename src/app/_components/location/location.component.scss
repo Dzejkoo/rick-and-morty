@@ -1,0 +1,17 @@
+.location {
+  min-height: 100vh;
+  &__characters {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  &__date,
+  &__info {
+    font-weight: 600;
+  }
+  &__label {
+    font-weight: 300;
+    margin-right: 5px;
+  }
+}

@@ -2,11 +2,16 @@ import { Routes } from '@angular/router';
 import { CharacterDetailsComponent } from './_components/character-details/character-details.component';
 import { CharacterListComponent } from './_components/character-list/character-list.component';
 import { EpisodeComponent } from './_components/episode/episode.component';
-import { LocationsComponent } from './_components/locations/locations.component';
+import { LocationComponent } from './_components/location/location.component';
+import { StartPageComponent } from './_components/start-page/start-page.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: StartPageComponent,
+  },
+  {
+    path: 'characters',
     component: CharacterListComponent,
   },
   {
@@ -19,6 +24,6 @@ export const routes: Routes = [
   },
   {
     path: 'location/:locationId',
-    component: LocationsComponent,
+    component: LocationComponent,
   },
 ];
