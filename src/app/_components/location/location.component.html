@@ -1,23 +1,42 @@
 <div class="location">
-  <h2 class="location__page-title">Location</h2>
+  <h2 class="location__page-title">
+    <img
+      (click)="back()"
+      class="location__arrow"
+      src="/assets/arrow.svg"
+      width="20"
+      height="20"
+      alt="arrow"
+    />
+    Location
+  </h2>
   <div class="location__details">
     @if (locationData$ | async; as locationData) {
       <h1 class="location__title">{{ locationData.name }}</h1>
-      <p class="location__type">{{ locationData.type }}</p>
-      <p class="location__dimension">{{ locationData.dimension }}</p>
+      <p class="location__type">
+        <span class="location__label">Type: </span>{{ locationData.type }}
+      </p>
     }
   </div>
 
-  <div class="location__characters">
-    @if (!charactersLoading()) {
-      @for (character of characters(); track character.id) {
-        <app-character
-          [isLoading]="charactersLoading()"
-          [characterData]="character"
-        ></app-character>
+  <div class="characters">
+    <h2 class="characters__title">Characters</h2>
+    <p class="characters__details">
+      <span class="characters__details-label">Number of characters: </span>
+      {{ characterCount() }}
+    </p>
+    <div class="characters__list">
+      @if (!charactersLoading()) {
+        @for (character of characters(); track character.id) {
+          <app-character
+            class="characters__character"
+            [isLoading]="charactersLoading()"
+            [characterData]="character"
+          ></app-character>
+        }
+      } @else {
+        <app-loader class="characters__loader"></app-loader>
       }
-    } @else {
-      <app-loader class="location__loader"></app-loader>
-    }
+    </div>
   </div>
 </div>

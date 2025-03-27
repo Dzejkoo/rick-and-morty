@@ -2,7 +2,13 @@ import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+} from 'rxjs';
 
 const ALLOW_PAGE = ['characters', 'locations', 'episodes'];
 

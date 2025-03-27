@@ -1,14 +1,14 @@
 import { Component, computed, inject } from '@angular/core';
 import { CharacterListService } from './character-list.service';
 import { CharacterComponent } from '../character/character.component';
-import { PaginatorComponent } from './_components/paginator/paginator.component';
 import { LoaderComponent } from '../loader/loader.component';
+import { PaginatorComponent } from '../paginator/paginator.component';
 
 @Component({
   selector: 'app-character-list',
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.scss',
-  imports: [CharacterComponent, PaginatorComponent, LoaderComponent],
+  imports: [CharacterComponent, LoaderComponent, PaginatorComponent],
 })
 export class CharacterListComponent {
   private readonly _characterService = inject(CharacterListService);

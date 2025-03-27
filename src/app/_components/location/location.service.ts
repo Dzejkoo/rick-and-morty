@@ -16,11 +16,12 @@ import { Character } from '../../_models/character.interface';
 export class LocationService {
   private readonly _appService = inject(AppService);
   private readonly _characterIds = signal<string[] | undefined>(undefined);
+  readonly characterCount = signal(0);
 
   private readonly _characterResource = rxResource({
     request: this._characterIds,
     loader: ({ request }) =>
-      this._appService.fetchCharacter<Character[]>(request).pipe(delay(500)),
+      this._appService.fetchCharacter(request).pipe(delay(500)),
   });
 
   readonly characterLoading = this._characterResource.isLoading;
@@ -47,6 +48,7 @@ export class LocationService {
   private _getCharacterIds(residents: string[]) {
     const episodeIds = residents.map((resident) => resident.replace(/\D/g, ''));
     if (JSON.stringify(this._characterIds()) !== JSON.stringify(episodeIds)) {
+      this.characterCount.set(residents.length);
       this._characterIds.set(episodeIds);
     }
   }

@@ -1,4 +1,3 @@
-import { PaginatorService } from './_components/paginator/paginator.service';
 import {
   inject,
   Injectable,
@@ -11,6 +10,7 @@ import { CharacterGetResponse } from '../../_models/character.interface';
 import { catchError, delay, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
+import { PaginatorService } from '../paginator/paginator.service';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterListService {

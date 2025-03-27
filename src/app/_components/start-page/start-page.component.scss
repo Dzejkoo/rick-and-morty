@@ -34,8 +34,6 @@
 }
 @media only screen and (min-width: 720px) {
   .start-page {
-    max-height: 770px;
-    height: calc(100vh - 150px);
     &__title {
       font-size: 72px;
     }

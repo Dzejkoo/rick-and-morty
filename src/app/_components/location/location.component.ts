@@ -5,6 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { LocationService } from './location.service';
 import { CharacterComponent } from '../character/character.component';
 import { LoaderComponent } from '../loader/loader.component';
+import { AppService } from '../../app.service';
 
 @Component({
   selector: 'app-location',
@@ -15,10 +16,16 @@ import { LoaderComponent } from '../loader/loader.component';
 export class LocationComponent {
   private readonly _activateRoute = inject(ActivatedRoute);
   private readonly _locationService = inject(LocationService);
+  private readonly _appService = inject(AppService);
   readonly characters = this._locationService.characters;
   readonly charactersLoading = this._locationService.characterLoading;
+  readonly characterCount = this._locationService.characterCount;
 
   readonly locationData$ = this._getParamsAndFetchData();
+
+  back() {
+    this._appService.back();
+  }
 
   private _getParamsAndFetchData() {
     return this._activateRoute.params.pipe(

@@ -1,8 +1,9 @@
 import { Component, inject, input, computed } from '@angular/core';
-import { Info } from '../../../../_models/character.interface';
+
 import { RouterLink } from '@angular/router';
-import { TemplateFuncPipe } from '../../../../_pipes/template-func.pipe';
 import { PaginatorService } from './paginator.service';
+import { Info } from '../../_models/character.interface';
+import { TemplateFuncPipe } from '../../_pipes/template-func.pipe';
 
 @Component({
   selector: 'app-paginator',
