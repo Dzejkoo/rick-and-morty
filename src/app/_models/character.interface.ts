@@ -1,3 +1,5 @@
+import { Info } from './info.interface';
+
 export interface Character {
   id: number;
   name: string;
@@ -11,13 +13,6 @@ export interface Character {
   episode: string[];
   url: string;
   created: string;
-}
-
-export interface Info {
-  count: number;
-  pages: number;
-  next: string;
-  prev: string;
 }
 
 export interface CharacterGetResponse {

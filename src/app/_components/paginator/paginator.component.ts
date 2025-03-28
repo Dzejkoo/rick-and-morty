@@ -2,8 +2,9 @@ import { Component, inject, input, computed } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import { PaginatorService } from './paginator.service';
-import { Info } from '../../_models/character.interface';
 import { TemplateFuncPipe } from '../../_pipes/template-func.pipe';
+import { Info } from '../../_models/info.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-paginator',
@@ -16,9 +17,11 @@ export class PaginatorComponent {
   readonly paginaotrData = input.required<Info>();
   readonly isLoading = input.required<boolean>();
 
-  readonly currentPage = computed(
-    () => this._paginatorService.pageFromUrl() ?? 1,
+  readonly pageFromUrl = toSignal(
+    this._paginatorService.getCurrentPageFromUrl(),
   );
+
+  readonly currentPage = computed(() => this.pageFromUrl() ?? 1);
 
   readonly totalPages = computed(() => this.paginaotrData()?.pages || 1);
 
@@ -28,20 +31,20 @@ export class PaginatorComponent {
 
   private _range() {
     const lastPage = this.totalPages();
-    const currentPage = this.currentPage();
+    const params = this.currentPage();
 
     if (lastPage <= 3) {
       return Array.from({ length: lastPage }, (_, i) => i + 1);
     }
 
-    if (currentPage <= 2) {
+    if (params <= 2) {
       return [1, 2, 3];
     }
 
-    if (currentPage >= lastPage - 1) {
+    if (params >= lastPage - 1) {
       return [lastPage - 2, lastPage - 1, lastPage];
     }
 
-    return [currentPage - 1, currentPage, currentPage + 1];
+    return [params - 1, params, params + 1];
   }
 }

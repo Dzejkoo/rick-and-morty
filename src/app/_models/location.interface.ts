@@ -1,3 +1,5 @@
+import { Info } from './info.interface';
+
 export interface Location {
   id: number;
   name: string;
@@ -6,4 +8,9 @@ export interface Location {
   residents: string[];
   url: string;
   created: string;
+}
+
+export interface LocationGetResponse {
+  info: Info;
+  results: Location[];
 }

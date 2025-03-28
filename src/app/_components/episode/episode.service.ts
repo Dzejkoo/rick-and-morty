@@ -23,8 +23,12 @@ export class EpisodeService {
 
   private readonly _characterResource = rxResource({
     request: this._characterIds,
-    loader: ({ request }) =>
-      this._appService.fetchCharacter(request).pipe(delay(500)),
+    loader: ({ request }) => {
+      if (!request) return of([] as Character[]);
+      return this._appService
+        .fetchCharacter<Character[]>(request)
+        .pipe(delay(500));
+    },
   });
 
   readonly characterLoading = this._characterResource.isLoading;

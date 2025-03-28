@@ -5,27 +5,26 @@ import {
   ResourceStatus,
   WritableSignal,
 } from '@angular/core';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
-import { CharacterGetResponse } from '../../_models/character.interface';
-import { catchError, delay, of } from 'rxjs';
-import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
+import { Router } from '@angular/router';
 import { PaginatorService } from '../paginator/paginator.service';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { LocationGetResponse } from '../../_models/location.interface';
+import { catchError, delay, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class CharacterListService {
+export class LocationListService {
   private readonly _appService = inject(AppService);
   private readonly _router = inject(Router);
   private readonly _paginatorService = inject(PaginatorService);
-
   readonly pageFromUrl = toSignal(
-    this._paginatorService.getCurrentPageFromUrl('characters'),
+    this._paginatorService.getCurrentPageFromUrl('locations'),
   );
 
-  private readonly _allCharactersResource = rxResource({
+  private readonly _allLocationResources = rxResource({
     request: () => this.pageFromUrl(),
     loader: ({ request }) =>
-      this._appService.fetchAllCharacters(request).pipe(
+      this._appService.fetchAllLocations(request).pipe(
         delay(500),
         catchError(() => {
           this._router.navigate(['/']);
@@ -34,18 +33,18 @@ export class CharacterListService {
       ),
   });
 
-  readonly characterLoading = this._allCharactersResource.isLoading;
+  readonly characterLoading = this._allLocationResources.isLoading;
 
-  readonly allCharacters: WritableSignal<CharacterGetResponse> = linkedSignal({
+  readonly allLocations: WritableSignal<LocationGetResponse> = linkedSignal({
     source: () => ({
-      value: this._allCharactersResource.value(),
-      status: this._allCharactersResource.status(),
+      value: this._allLocationResources.value(),
+      status: this._allLocationResources.status(),
     }),
     computation: (source, previous) => {
       if (previous && source.status === ResourceStatus.Loading) {
         return previous.value;
       }
-      return source.value ?? ({} as CharacterGetResponse);
+      return source.value ?? ({} as LocationGetResponse);
     },
   });
 }

@@ -1,0 +1,38 @@
+<div class="page-info">
+  <h1 class="page-info__title">Locations</h1>
+  <span class="page-info__subtitle"
+    >Locations count {{ paginatorInfo().count }}
+  </span>
+</div>
+<div class="location-list">
+  @let locationsArr = locations();
+  <div class="location-list__main">
+    @if (locationsArr?.length) {
+      @for (location of locationsArr; track location.id) {
+        <a
+          [routerLink]="'/location/' + location.id"
+          [state]="location"
+          class="location-list__item"
+          [class.location-list__item--loading]="isLoading()"
+        >
+          <h3 class="location-list__item-title">
+            {{ location.name }}
+          </h3>
+          <p class="location-list__item-type">
+            <span class="location-list__label">Type: </span>{{ location.type }}
+          </p>
+          <p class="location-list__item-dimension">
+            <span class="location-list__label">Dimension: </span
+            >{{ location.dimension }}
+          </p>
+        </a>
+      }
+    } @else {
+      <app-loader></app-loader>
+    }
+  </div>
+  <app-paginator
+    [isLoading]="!!locationsArr?.length"
+    [paginaotrData]="paginatorInfo()"
+  ></app-paginator>
+</div>

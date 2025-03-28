@@ -7,7 +7,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { AppService } from '../../app.service';
-import { delay, tap } from 'rxjs';
+import { delay, iif, map, of, tap } from 'rxjs';
 import { Location } from '../../_models/location.interface';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Character } from '../../_models/character.interface';
@@ -20,8 +20,15 @@ export class LocationService {
 
   private readonly _characterResource = rxResource({
     request: this._characterIds,
-    loader: ({ request }) =>
-      this._appService.fetchCharacter(request).pipe(delay(500)),
+    loader: ({ request }) => {
+      if (!request) return of([] as Character[]);
+      return this._appService.fetchCharacter<Character[]>(request).pipe(
+        map((characters) =>
+          Array.isArray(characters) ? characters : [characters],
+        ),
+        delay(500),
+      );
+    },
   });
 
   readonly characterLoading = this._characterResource.isLoading;
@@ -39,10 +46,12 @@ export class LocationService {
     },
   });
 
-  getLocation(locationId: string) {
-    return this._appService
-      .fecthLocation<Location>(locationId)
-      .pipe(tap(({ residents }) => this._getCharacterIds(residents)));
+  getLocation(locationId: string, stateLocation: Location) {
+    return iif(
+      () => !!stateLocation,
+      of(stateLocation),
+      this._appService.fecthLocation<Location>(locationId),
+    ).pipe(tap(({ residents }) => this._getCharacterIds(residents)));
   }
 
   private _getCharacterIds(residents: string[]) {
