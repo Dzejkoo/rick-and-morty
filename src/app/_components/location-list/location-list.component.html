@@ -7,7 +7,10 @@
 <div class="location-list">
   @let locationsArr = locations();
   <div class="location-list__main">
-    @if (locationsArr?.length) {
+    <div
+      class="location-list__wrapper"
+      [class.location-list__wrapper--active]="locationsArr?.length"
+    >
       @for (location of locationsArr; track location.id) {
         <a
           [routerLink]="'/location/' + location.id"
@@ -27,9 +30,11 @@
           </p>
         </a>
       }
-    } @else {
-      <app-loader></app-loader>
-    }
+    </div>
+    <app-loader
+      class="location-list__loader"
+      [class.location-list__loader--active]="!locationsArr?.length"
+    ></app-loader>
   </div>
   <app-paginator
     [isLoading]="!!locationsArr?.length"
