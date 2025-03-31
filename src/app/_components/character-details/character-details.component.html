@@ -62,8 +62,11 @@
         <span class="episodes__details-label">Number of episodes: </span>
         {{ episodesCount() }}
       </p>
-      <div class="episodes__list">
-        @if (!episodesLoading()) {
+      <div class="episodes__list" [class.epi]>
+        <div
+          class="episodes__wrapper"
+          [class.episodes__wrapper--active]="!episodesLoading()"
+        >
           @for (season of episodesData(); track season.title) {
             <h3 class="episodes__season">{{ season.title }}</h3>
             <div class="episodes__season-episode">
@@ -82,9 +85,11 @@
               }
             </div>
           }
-        } @else {
-          <app-loader class="episodes__loader"></app-loader>
-        }
+        </div>
+        <app-loader
+          class="episodes__loader"
+          [class.episodes__loader--active]="episodesLoading()"
+        ></app-loader>
       </div>
     </div>
   } @else {

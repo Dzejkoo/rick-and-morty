@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, switchMap } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { LocationService } from './location.service';
 import { CharacterComponent } from '../character/character.component';

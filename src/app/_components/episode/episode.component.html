@@ -30,16 +30,21 @@
       {{ characterCount() }}
     </p>
     <div class="characters__list">
-      @if (!charactersLoading()) {
+      <div
+        class="characters__wrapper"
+        [class.characters__wrapper--active]="!charactersLoading()"
+      >
         @for (character of characters(); track character.id) {
           <app-character
             [isLoading]="charactersLoading()"
             [characterData]="character"
           ></app-character>
         }
-      } @else {
-        <app-loader class="characters__loader"></app-loader>
-      }
+      </div>
+      <app-loader
+        class="characters__loader"
+        [class.characters__loader--active]="charactersLoading()"
+      ></app-loader>
     </div>
   </div>
 </div>

@@ -1,11 +1,4 @@
-import {
-  inject,
-  Injectable,
-  linkedSignal,
-  ResourceStatus,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { AppService } from '../../app.service';
 import { delay, iif, map, of, tap } from 'rxjs';
 import { Location } from '../../_models/location.interface';
@@ -21,7 +14,7 @@ export class LocationService {
   private readonly _characterResource = rxResource({
     request: this._characterIds,
     loader: ({ request }) => {
-      if (!request) return of([] as Character[]);
+      if (!request?.length) return of([] as Character[]);
       return this._appService.fetchCharacter<Character[]>(request).pipe(
         map((characters) =>
           Array.isArray(characters) ? characters : [characters],
@@ -30,21 +23,8 @@ export class LocationService {
       );
     },
   });
-
+  readonly characters = computed(() => this._characterResource.value());
   readonly characterLoading = this._characterResource.isLoading;
-
-  readonly characters: WritableSignal<Character[]> = linkedSignal({
-    source: () => ({
-      value: this._characterResource.value(),
-      status: this._characterResource.status(),
-    }),
-    computation: (source, previous) => {
-      if (previous && source.status === ResourceStatus.Loading) {
-        return previous.value;
-      }
-      return source.value ?? ([] as Character[]);
-    },
-  });
 
   getLocation(locationId: string, stateLocation: Location) {
     return iif(
