@@ -31,7 +31,6 @@ export class AppService {
   }
 
   fetchAllEpisodes(page: number) {
-    console.log(page);
     return this._httpClient.get<EpisodeGetResponse>(
       `${environment.apiUrl}/episode?page=${page}`,
     );
