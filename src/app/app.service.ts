@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { LocationGetResponse } from './_models/location.interface';
 import { EpisodeGetResponse } from './_models/episode.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AppService {
   private readonly _httpClient = inject(HttpClient);
   private readonly _location = inject(Location);
   private readonly _router = inject(Router);
+  readonly mainImage = toSignal(this._getMainImage());
 
   fecthLocation<T>(locationId: string[] | string) {
     return this._httpClient.get<T>(
@@ -55,6 +57,30 @@ export class AppService {
     return this._httpClient.get<T>(
       `${environment.apiUrl}/episode/${episodeIds}`,
     );
+  }
+
+  private _getMainImage() {
+    return new Observable((observer) => {
+      fetch('/assets/main-image.png')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to load image');
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            observer.next(reader.result);
+            observer.complete();
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch(() => {
+          observer.next(null);
+          observer.complete();
+        });
+    });
   }
 
   back() {
