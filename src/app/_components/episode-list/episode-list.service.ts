@@ -40,7 +40,6 @@ export class EpisodeLisService {
       status: this._allEpisodeResource.status(),
     }),
     computation: (source, previous) => {
-      console.log(source.value);
       if (previous && source.status === ResourceStatus.Loading) {
         return previous.value;
       }

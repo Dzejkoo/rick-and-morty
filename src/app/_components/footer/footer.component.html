@@ -1,1 +1,21 @@
-<div class="footer"></div>
+<div class="footer">
+  <a routerLink="/" class="footer__logo">
+    <img
+      width="150"
+      loading="lazy"
+      src="/assets/logo.png"
+      alt="rick and morty logo"
+    />
+  </a>
+  <a target="_blank" class="footer__docs" href="https://rickandmortyapi.com/"
+    >API Docs</a
+  >
+  <a class="footer__github" href="https://github.com/Dzejkoo/rick-and-morty">
+    <img src="/assets/github.svg" loading="lazy" alt="github" />
+  </a>
+  <p class="footer__made">
+    ❮❯ by
+    <a href="https://github.com/Dzejkoo" class="footer__me">Jakub Jóźwiak</a>
+    {{ date() }}
+  </p>
+</div>
