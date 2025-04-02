@@ -20,6 +20,7 @@
     margin-top: auto;
   }
   &__details {
+    text-align: center;
     order: 1;
   }
   &__image {
@@ -41,6 +42,7 @@
       order: 0;
     }
     &__details {
+      text-align: left;
       order: 0;
     }
     &__quote {
