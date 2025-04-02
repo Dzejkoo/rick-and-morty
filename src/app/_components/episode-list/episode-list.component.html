@@ -1,0 +1,44 @@
+<div class="page-info">
+  <h1 class="page-info__title">Episodes</h1>
+  <span class="page-info__subtitle"
+    >Episodes count: {{ paginatorInfo().count }}
+  </span>
+</div>
+<div class="episode-list">
+  @let episodesArr = episodes();
+  <div class="episode-list__main">
+    <div
+      class="episode-list__wrapper"
+      [class.episode-list__wrapper--active]="episodesArr?.length"
+    >
+      @for (episode of episodesArr; track episode.id) {
+        <a
+          [routerLink]="'/episode/' + episode.id"
+          [state]="episode"
+          class="episode-list__item"
+          [class.episode-list__item--loading]="isLoading()"
+        >
+          <h3 class="episode-list__item-title">
+            {{ episode.name }}
+          </h3>
+          <p class="episode-list__item-type">
+            <span class="episode-list__label">Date: </span
+            >{{ episode.air_date }}
+          </p>
+          <p class="episode-list__item-dimension">
+            <span class="episode-list__label">Dimension: </span
+            >{{ episode.episode }}
+          </p>
+        </a>
+      }
+    </div>
+    <app-loader
+      class="episode-list__loader"
+      [class.episode-list__loader--active]="!episodesArr?.length"
+    ></app-loader>
+  </div>
+  <app-paginator
+    [isLoading]="!!episodesArr?.length"
+    [paginaotrData]="paginatorInfo()"
+  ></app-paginator>
+</div>

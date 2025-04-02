@@ -2,7 +2,7 @@
   <div class="paginator">
     @let page = currentPage();
     @let lastPage = totalPages();
-    @if (page >= 3) {
+    @if (page >= 3 && lastPage > 3) {
       <a routerLink="." class="paginator__page" [queryParams]="null">1</a>
       <a
         routerLink="."
@@ -22,7 +22,7 @@
         >{{ paginatorPage }}</a
       >
     }
-    @if (page < lastPage - 1) {
+    @if (page < lastPage - 1 && lastPage > 3) {
       <a
         routerLink="."
         class="paginator__page"

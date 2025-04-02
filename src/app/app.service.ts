@@ -6,6 +6,7 @@ import { forkJoin, map, mergeMap, Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { LocationGetResponse } from './_models/location.interface';
+import { EpisodeGetResponse } from './_models/episode.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,13 @@ export class AppService {
   fetchCharacter<T>(characterId: string[] | string) {
     return this._httpClient.get<T>(
       `${environment.apiUrl}/character/${characterId}`,
+    );
+  }
+
+  fetchAllEpisodes(page: number) {
+    console.log(page);
+    return this._httpClient.get<EpisodeGetResponse>(
+      `${environment.apiUrl}/episode?page=${page}`,
     );
   }
 

@@ -5,6 +5,7 @@ import { EpisodeComponent } from './_components/episode/episode.component';
 import { LocationComponent } from './_components/location/location.component';
 import { StartPageComponent } from './_components/start-page/start-page.component';
 import { LocationListComponent } from './_components/location-list/location-list.component';
+import { EpisodeListComponent } from './_components/episode-list/episode-list.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'characters',
     component: CharacterListComponent,
+  },
+  {
+    path: 'episodes',
+    component: EpisodeListComponent,
   },
   {
     path: 'character/:characterId',
