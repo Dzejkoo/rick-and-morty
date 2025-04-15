@@ -1,11 +1,5 @@
 import { Routes } from '@angular/router';
-import { CharacterDetailsComponent } from './_components/character-details/character-details.component';
-import { CharacterListComponent } from './_components/character-list/character-list.component';
-import { EpisodeComponent } from './_components/episode/episode.component';
-import { LocationComponent } from './_components/location/location.component';
 import { StartPageComponent } from './_components/start-page/start-page.component';
-import { LocationListComponent } from './_components/location-list/location-list.component';
-import { EpisodeListComponent } from './_components/episode-list/episode-list.component';
 
 export const routes: Routes = [
   {
@@ -14,26 +8,44 @@ export const routes: Routes = [
   },
   {
     path: 'locations',
-    component: LocationListComponent,
+    loadComponent: () =>
+      import('./_components/location-list/location-list.component').then(
+        (m) => m.LocationListComponent,
+      ),
   },
   {
     path: 'characters',
-    component: CharacterListComponent,
+    loadComponent: () =>
+      import('./_components/character-list/character-list.component').then(
+        (m) => m.CharacterListComponent,
+      ),
   },
   {
     path: 'episodes',
-    component: EpisodeListComponent,
+    loadComponent: () =>
+      import('./_components/episode-list/episode-list.component').then(
+        (m) => m.EpisodeListComponent,
+      ),
   },
   {
     path: 'character/:characterId',
-    component: CharacterDetailsComponent,
+    loadComponent: () =>
+      import(
+        './_components/character-details/character-details.component'
+      ).then((m) => m.CharacterDetailsComponent),
   },
   {
     path: 'episode/:episodeId',
-    component: EpisodeComponent,
+    loadComponent: () =>
+      import('./_components/episode/episode.component').then(
+        (m) => m.EpisodeComponent,
+      ),
   },
   {
     path: 'location/:locationId',
-    component: LocationComponent,
+    loadComponent: () =>
+      import('./_components/location/location.component').then(
+        (m) => m.LocationComponent,
+      ),
   },
 ];

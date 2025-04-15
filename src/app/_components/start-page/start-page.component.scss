@@ -29,7 +29,8 @@
     max-width: 480px;
     img {
       display: block;
-      width: 100%;
+      width: 345px;
+      height: 482px;
     }
   }
 }
@@ -40,6 +41,10 @@
     }
     &__image {
       order: 0;
+      img {
+        width: 480px;
+        height: 670px;
+      }
     }
     &__details {
       text-align: left;
